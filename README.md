@@ -73,8 +73,24 @@ npm run dev
 - レシート画像は `backend/data/uploads/` に保存されます。
 - どちらも `.gitignore` 済み。バックアップは `backend/data/` をコピーすればOK。
 
+## デプロイ（本番・1コンテナ）
+
+本番は **Docker 1コンテナ・プロセス1個** で動きます（Pythonがフロントも配信）。
+開発時のような2プロセス起動は不要です。
+
+```bash
+docker build -t kakeibo .
+docker run -p 8000:8000 -v "$(pwd)/data:/app/data" \
+  -e ANTHROPIC_API_KEY=sk-ant-... kakeibo
+```
+
+→ http://localhost:8000 。データ（SQLite・画像）は `-v` で渡したフォルダに永続化されます。
+
+詳しい仕組み・環境変数・デプロイ先別メモは **[DEPLOY.md](./DEPLOY.md)** を参照。
+
 ## メモ
 
 - レシートOCRはAPI利用のため、読み取り1回ごとにごくわずかな費用が発生します。
 - 送信前に画像を自動で縮小して通信量を抑えています。
-- 本番運用したい場合は `cd frontend && npm run build` でビルドし、Nuxtを起動（`node .output/server/index.mjs`）しつつ `/api`・`/uploads` をPython APIへ振り向けるリバースプロキシ（nginx等）を置く構成が簡単です。
+- デプロイ時の最重要ポイントは「**データ保存先（`/app/data`）を永続ボリュームにする**」こと。
+  無料ホスティングは永続ディスクが有料/不可の場合が多いので要確認（→ DEPLOY.md）。

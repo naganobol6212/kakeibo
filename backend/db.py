@@ -6,7 +6,9 @@ import secrets
 import time
 from pathlib import Path
 
-DATA_DIR = Path(__file__).parent / "data"
+# データ保存先。本番では永続ボリュームを DATA_DIR で指定する（例: /app/data）。
+# 未指定なら backend/data に保存（ローカル開発用）。
+DATA_DIR = Path(os.environ.get("DATA_DIR") or (Path(__file__).parent / "data"))
 DB_PATH = DATA_DIR / "kakeibo.db"
 UPLOAD_DIR = DATA_DIR / "uploads"
 

@@ -1,5 +1,6 @@
 """ズボラ家計簿 API (FastAPI)。"""
 import base64
+import os
 import re
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -7,8 +8,10 @@ from pathlib import Path
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
+from starlette.exceptions import HTTPException as StarletteHTTPException
 
 load_dotenv()
 
@@ -284,3 +287,36 @@ def stats_categories(month: str | None = None):
 @app.get("/api/health")
 def health():
     return {"ok": True, "ocr": is_configured()}
+
+
+# ---------- フロントエンド配信（本番: 1コンテナ構成）----------
+# Nuxtを `npm run generate` で書き出した静的ファイル群を、このバックエンドが配信する。
+# これにより本番はプロセス1個（uvicorn）だけで完結する。
+# 開発時はNuxt devサーバー(:3000)を使うので、このディレクトリが無ければ何もしない。
+FRONTEND_DIR = Path(os.environ.get("FRONTEND_DIST", Path(__file__).parent / "static")).resolve()
+
+
+class SpaStaticFiles(StaticFiles):
+    """静的ファイルが見つからなければSPAのエントリHTMLを返す。
+
+    Nuxt(ssr:false)の `generate` 出力は、クライアントルーティング用に
+    200.html（無ければindex.html）をフォールバックとして持つ。
+    これにより /history などを直接リロードしても画面が出る。
+    """
+
+    async def get_response(self, path, scope):
+        try:
+            return await super().get_response(path, scope)
+        except StarletteHTTPException as exc:
+            if exc.status_code != 404:
+                raise
+            for fallback in ("200.html", "index.html"):
+                f = FRONTEND_DIR / fallback
+                if f.is_file():
+                    return FileResponse(str(f))
+            raise
+
+
+if FRONTEND_DIR.is_dir():
+    # この mount は全API宣言より後に置くこと（先に置くとAPIを飲み込む）。
+    app.mount("/", SpaStaticFiles(directory=str(FRONTEND_DIR), html=True), name="frontend")

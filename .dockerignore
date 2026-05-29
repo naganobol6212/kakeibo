@@ -1,4 +1,4 @@
-# Python backend
+# Pythonの仮想環境・キャッシュ（イメージに入れない）
 backend/.venv/
 backend/__pycache__/
 backend/**/__pycache__/
@@ -6,13 +6,13 @@ backend/.env
 backend/data/
 backend/static/
 
-# Nuxt frontend
+# Nuxtのビルド生成物・依存（ビルドステージで作り直す）
 frontend/node_modules/
 frontend/.nuxt/
 frontend/.output/
 frontend/.data/
-frontend/dist/
 
-# misc
+# git・その他
+.git/
 *.log
 .DS_Store
