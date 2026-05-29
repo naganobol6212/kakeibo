@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
+  <rect width="192" height="192" rx="42" fill="#10b981"/>
+  <!-- 貯金箱（ぶた）のシルエット -->
+  <g fill="#ffffff">
+    <ellipse cx="92" cy="104" rx="58" ry="44"/>
+    <circle cx="142" cy="92" r="22"/>
+    <rect x="150" y="84" width="16" height="10" rx="5"/>
+    <polygon points="60,64 84,64 70,84"/>
+    <rect x="60" y="142" width="12" height="20" rx="5"/>
+    <rect x="108" y="142" width="12" height="20" rx="5"/>
+  </g>
+  <!-- コイン投入口と目 -->
+  <rect x="78" y="74" width="34" height="7" rx="3.5" fill="#10b981"/>
+  <circle cx="138" cy="88" r="4.5" fill="#10b981"/>
+  <!-- 上から落ちるコイン（円マーク） -->
+  <circle cx="95" cy="40" r="17" fill="#fbbf24" stroke="#f59e0b" stroke-width="3"/>
+  <text x="95" y="47" font-size="20" font-family="sans-serif" font-weight="bold" text-anchor="middle" fill="#92400e">¥</text>
+</svg>

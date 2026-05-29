@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
+  <!-- マスカブル用: 余白(セーフゾーン)を広めにとる -->
+  <rect width="192" height="192" fill="#10b981"/>
+  <g fill="#ffffff" transform="translate(0,6) scale(0.82) translate(20,16)">
+    <ellipse cx="92" cy="104" rx="58" ry="44"/>
+    <circle cx="142" cy="92" r="22"/>
+    <rect x="150" y="84" width="16" height="10" rx="5"/>
+    <polygon points="60,64 84,64 70,84"/>
+    <rect x="60" y="142" width="12" height="20" rx="5"/>
+    <rect x="108" y="142" width="12" height="20" rx="5"/>
+  </g>
+  <circle cx="96" cy="62" r="15" fill="#fbbf24" stroke="#f59e0b" stroke-width="3"/>
+  <text x="96" y="68" font-size="18" font-family="sans-serif" font-weight="bold" text-anchor="middle" fill="#92400e">¥</text>
+</svg>
